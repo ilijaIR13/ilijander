@@ -1,67 +1,38 @@
-async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-  e.preventDefault();
-  setMsg(null);
+// src/app/dashboard/page.tsx
+import { serverSupabase } from "@/lib/supabaseServer";
+import { notFound, redirect } from "next/navigation";
+import Container from "@/components/Container";
 
-  // ⚠️ važno: referencu na form uzmi PRE await
-  const form = e.currentTarget;
-  const fd = new FormData(form);
+// ❗ Spreči build-time prerender /dashboard
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
 
-  // --- Tests JSON (input mora da se zove tests_json) ---
-  // Očekujemo niz objekata: [{ name, input, output }]
-  let tests: Array<{ name?: string; input: string; output: string }> = [];
-  const rawTests = String(fd.get("tests_json") || "").trim();
-  if (rawTests.length) {
-    try {
-      const parsed = JSON.parse(rawTests);
-      if (!Array.isArray(parsed)) throw new Error("Tests JSON mora biti niz []");
-      // grubi sanitize
-      tests = parsed.map((t: any, i: number) => ({
-        name: String(t?.name ?? `case ${i + 1}`),
-        input: String(t?.input ?? ""),
-        output: String(t?.output ?? ""),
-      }));
-    } catch (err: any) {
-      setMsg("Tests JSON nije validan.");
-      return;
-    }
-  }
+export default async function DashboardPage() {
+  const supa = serverSupabase();
+  const { data: auth } = await supa.auth.getUser();
+  if (!auth?.user) redirect("/login");
 
-  // --- Payload ---
-  // ⚠️ Promena: umesto difficulty (text), sada šaljemo difficulty_pts (number 100–1000)
-  const points = Number(fd.get("difficulty_pts") || 300);
-  if (Number.isNaN(points) || points < 100 || points > 1000) {
-    setMsg("Points (difficulty_pts) mora biti broj 100–1000.");
-    return;
-  }
+  // admin guard
+  const { data: u } = await supa
+    .from("app_users")
+    .select("role")
+    .eq("user_id", auth.user.id)
+    .maybeSingle();
 
-  const payload = {
-    slug: String(fd.get("slug") || "").trim(),
-    title: String(fd.get("title") || "").trim(),
-    tags: String(fd.get("tags") || "")
-      .split(",")
-      .map((s) => s.trim())
-      .filter(Boolean),
-    difficulty_pts: points,
+  if (u?.role !== "admin") notFound();
 
-    statement_md: String(fd.get("statement_md") || ""),
-    solution_md: String(fd.get("solution_md") || ""),
+  // ⚠️ NIŠTA ne “renderuj” što je plain object (npr. JSON) direktno u JSX.
+  // Ako želiš da vidiš podatke, stringifikuj:
+  // <pre>{JSON.stringify(nekiObjekat, null, 2)}</pre>
 
-    code_language: String(fd.get("code_language") || "cpp"),
-    code_source: String(fd.get("code_source") || ""),
-
-    tests,
-  };
-
-  // brze validacije
-  if (!payload.slug) return setMsg("Slug je obavezan.");
-  if (!payload.title) return setMsg("Title je obavezan.");
-
-  const { error } = await supa.from("tasks").insert(payload as any);
-
-  if (error) {
-    setMsg(error.message);
-  } else {
-    setMsg("Task created ✔️");
-    form.reset(); // sada je form referenca validna
-  }
+  return (
+    <Container>
+      <h1 className="text-2xl font-semibold mb-6">Dashboard</h1>
+      <p className="text-slate-600">
+        Admin-only page (runtime rendered). Add your forms and tables here.
+      </p>
+      {/* ...tvoj dashboard UI... */}
+    </Container>
+  );
 }
