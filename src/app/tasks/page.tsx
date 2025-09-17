@@ -1,5 +1,5 @@
-import Link from "next/link";
 import Container from "@/components/Container";
+import Link from "next/link";
 import { serverSupabase } from "@/lib/supabaseServer";
 
 export default async function TasksPage() {
@@ -16,11 +16,9 @@ export default async function TasksPage() {
     <Container>
       <h1 className="text-2xl font-semibold mb-4">Tasks</h1>
       <div className="grid gap-3">
-        {(tasks ?? []).map((t) => (
+        {(tasks ?? []).map(t => (
           <div key={t.id} className="card p-4 flex items-center justify-between">
-            <Link href={`/tasks/${t.slug}`} className="font-medium hover:underline">
-              {t.title}
-            </Link>
+            <Link href={`/tasks/${t.slug}`} className="font-medium hover:underline">{t.title}</Link>
             <span className="tag">{t.difficulty_pts ?? 300}</span>
           </div>
         ))}
@@ -28,4 +26,9 @@ export default async function TasksPage() {
       </div>
     </Container>
   );
+}
+
+// src/components/Container.tsx (ako nemaš)
+export default function Container({ children }: { children: React.ReactNode }) {
+  return <div className="mx-auto max-w-5xl px-4 py-6">{children}</div>;
 }
