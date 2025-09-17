@@ -1,35 +1,32 @@
-import type { Config } from "tailwindcss";
 
-export default {
-  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
-
+import type { Config } from 'tailwindcss'
+const config: Config = {
+  content: ['./src/**/*.{ts,tsx}'],
   theme: {
     extend: {
       colors: {
-        // tvoja brend paleta (slobodno promeni nijanse)
         brand: {
-          50:  "#eef2ff",
-          100: "#e0e7ff",
-          200: "#c7d2fe",
-          300: "#a5b4fc",
-          400: "#818cf8",
-          500: "#6366f1",
-          600: "#5458e9",
-          700: "#4649d6",
-          800: "#3b3fb7",
-          900: "#313593",
-        },
+          50: '#f5f8ff',
+          100: '#eaf0ff',
+          200: '#d5e1ff',
+          300: '#b3c8ff',
+          400: '#89a6ff',
+          500: '#5c7dff',
+          600: '#3d59f5',
+          700: '#2e44d6',
+          800: '#2838aa',
+          900: '#253382'
+        }
       },
       boxShadow: {
-        // za .shadow-soft u CSS-u
-        soft: "0 6px 24px rgba(15, 23, 42, 0.06)",
+        soft: '0 2px 20px rgba(0,0,0,0.06)'
       },
-      ringColor: {
-        // da focus ring iz .input koristi brand nijanse
-        DEFAULT: "#c7d2fe", // = brand-200
-      },
+      borderRadius: {
+        xl: '1rem'
+      }
     },
   },
-
   plugins: [],
-} satisfies Config;
+}
+export default config
+
