@@ -1,7 +1,15 @@
+import { createServerClient } from @supabaseauth-helpers-nextjs;
+import { cookies } from nextheaders;
+import { redirect } from nextnavigation;
 
-import { redirect } from 'next/navigation'
+export default async function SignOut() {
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    { cookies }
+  );
 
-export default function Home() {
-  redirect('/login') // da ne udara /tasks dok nisi ulogovan
+  await supabase.auth.signOut();
+
+  redirect();
 }
-
