@@ -1,10 +1,7 @@
-import Container from "@/components/Container";
+
+import { redirect } from 'next/navigation'
 
 export default function Home() {
-  return (
-    <Container>
-      <h1 className="text-2xl font-semibold">It works 🎉</h1>
-      <p className="text-slate-600 mt-2">Welcome to Ilijander.</p>
-    </Container>
-  );
+  redirect('/login') // da ne udara /tasks dok nisi ulogovan
 }
+
