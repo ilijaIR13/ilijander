@@ -1,4 +1,6 @@
-
 /** @type {import('next').NextConfig} */
-const nextConfig = { experimental: { serverActions: { allowedOrigins: ['*'] } } };
-export default nextConfig;
+const nextConfig = {
+  reactStrictMode: false,
+  experimental: { typedRoutes: false }
+}
+export default nextConfig
