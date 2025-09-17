@@ -15,9 +15,7 @@ export default async function TaskDetail({ params }: { params: { slug: string } 
         <div>{t.statement_md}</div>
       </div>
       <h3 className="mt-6 mb-2 text-lg font-semibold">Test cases</h3>
-      <pre className="code-block">
-        {JSON.stringify(t.tests ?? [], null, 2)}
-      </pre>
+      <pre className="code-block">{JSON.stringify(t.tests ?? [], null, 2)}</pre>
     </Container>
   );
 }
