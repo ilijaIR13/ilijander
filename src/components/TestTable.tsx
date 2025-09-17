@@ -33,3 +33,4 @@ export default function TestTable({ tests }: { tests: Test[] }) {
     </div>
   )
 }
+
