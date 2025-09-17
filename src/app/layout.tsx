@@ -1,21 +1,9 @@
-
-import './globals.css'
-import Header from '@/components/Header'
-
-export const metadata = {
-  title: 'TaskVault',
-  description: 'Clean repository of programming tasks with solutions and code',
-}
-
+import "../styles/globals.css"; // <— OVO, ne "./globals.css"
+export const metadata = { title: "Ilijander", description: "Task site" };
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>
-        <Header />
-        <main className="py-8">
-          {children}
-        </main>
-      </body>
+      <body className="min-h-screen bg-slate-950 text-slate-100">{children}</body>
     </html>
-  )
+  );
 }
