@@ -15,22 +15,16 @@ export default async function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-40 border-b border-slate-800/50 bg-slate-900/70 backdrop-blur">
-      <div className="mx-auto max-w-5xl px-4 h-14 flex items-center justify-between">
-        <Link href="/" className="font-semibold">TaskVault</Link>
-
-        <nav className="flex items-center gap-4 text-sm">
-          <Link href="/tasks" className="hover:underline">Tasks</Link>
-          {user && <Link href="/profile" className="hover:underline">Profile</Link>}
-          {isAdmin && <Link href="/dashboard" className="hover:underline">Dashboard</Link>}
-          {!user ? (
-            <Link href="/login" className="btn btn-sm">Sign in</Link>
-          ) : (
-            <Link href="/logout" className="btn btn-sm btn-ghost">Sign out</Link>
-          )}
-        </nav>
+    <nav className="bg-blue-600 text-white flex justify-between items-center px-6 py-3">
+      <div className="font-bold">Ilijander</div>
+      <div className="flex gap-4">
+        <a href="/tasks">Tasks</a>
+        <a href="/profile">Profile</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/signout" className="font-semibold">Sign out</a>
       </div>
-    </header>
-  );
+    </nav>
+  )
 }
+
 
