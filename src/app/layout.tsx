@@ -3,9 +3,11 @@ import './globals.css'
 import Header from '@/components/Header'
 
 export const metadata = {
-  title: 'TaskVault',
-  description: 'Clean repository of programming tasks with solutions and code',
-}
+  title: "Ilijander",
+  description: "Najbolji zadaci profesora Ilijandera",
+  themeColor: "#2563eb",
+};
+
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
