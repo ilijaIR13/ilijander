@@ -1,30 +1,24 @@
-// Header.tsx (server component)
-import Link from "next/link";
-import { serverSupabase } from "@/lib/supabaseServer";
+import Link from "next/link"
 
-export default async function Header() {
-  const supa = serverSupabase(); 
-  const { data: auth } = await supa.auth.getUser();
-  const user = auth?.user;
-
-  // sačuvano u bazi: app_users(user_id pk, role text 'admin'|'user')
-  let isAdmin = false;
-  if (user) {
-    const { data } = await supa.from("app_users").select("role").eq("user_id", user.id).maybeSingle();
-    isAdmin = data?.role === "admin";
-  }
-
+export default function Header() {
   return (
-    <nav className="bg-blue-600 text-white flex justify-between items-center px-6 py-3">
-      <div className="font-bold">Ilijander</div>
-      <div className="flex gap-4">
-        <a href="/tasks">Tasks</a>
-        <a href="/profile">Profile</a>
-        <a href="/dashboard">Dashboard</a>
-        <a href="/signout" className="font-semibold">Sign out</a>
+    <nav className="bg-blue-600 text-white">
+      <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
+        {/* Logo / naziv */}
+        <Link href="/" className="text-xl font-semibold tracking-tight">
+          Ilijander
+        </Link>
+
+        {/* Linkovi */}
+        <div className="flex gap-6 text-sm">
+          <Link href="/tasks">Tasks</Link>
+          <Link href="/profile">Profile</Link>
+          <Link href="/dashboard">Dashboard</Link>
+          <Link href="/signout" className="font-semibold">
+            Sign out
+          </Link>
+        </div>
       </div>
     </nav>
   )
 }
-
-
