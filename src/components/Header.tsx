@@ -3,7 +3,7 @@ import Link from "next/link";
 import { serverSupabase } from "@/lib/supabaseServer";
 
 export default async function Header() {
-  const supa = serverSupabase();
+  const supa = serverSupabase(); 
   const { data: auth } = await supa.auth.getUser();
   const user = auth?.user;
 
